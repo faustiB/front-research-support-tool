@@ -10,10 +10,10 @@ class HomePage extends StatelessWidget {
     return GetBuilder<HomeController>(
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          title: const Text("Home Page "),
+          title: const Text("Home Page Test App bar"),
         ),
         body: const Center(
-          child: Text("I'm at home!"),
+          child: Text("I'm at home! all good?"),
         ),
       ),
     );

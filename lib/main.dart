@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: HomeBinding(),
       theme:AppThemeData.lightTheme,
-      initialRoute: AppRoutes.home,
       home: const HomePage(),
       getPages: AppPages.pages ,
     );
