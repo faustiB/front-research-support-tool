@@ -6,14 +6,30 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context){
-    return GetBuilder<HomeController>(
+  Widget build(BuildContext context) {
+    return GetX<HomeController>(
+      init: HomeController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          title: const Text("Home Page Test App bar"),
+          title: const Text("Home v1"),
         ),
-        body: const Center(
-          child: Text("I'm at home! all good?"),
+        body: Column(
+          children: [
+            const Text("These are the journals"),
+            Expanded(
+
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: controller.journals.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Center(child: Text(controller.journals[index].title)),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
