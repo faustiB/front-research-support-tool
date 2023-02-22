@@ -12,17 +12,17 @@ class AppThemeData {
       ),
       textTheme: const TextTheme(
         headline1: TextStyle(
-          color: AppColors.primaryColor,
+          color: AppColors.black,
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
         headline2: TextStyle(
-          color: AppColors.primaryColor,
+          color: AppColors.black,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
         headline3: TextStyle(
-          color: AppColors.primaryColor,
+          color: AppColors.black,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -42,11 +42,11 @@ class AppThemeData {
           fontWeight: FontWeight.bold,
         ),
         bodyText1: TextStyle(
-          color: AppColors.primaryColor,
+          color: AppColors.black,
           fontSize: 14,
         ),
         bodyText2: TextStyle(
-          color: AppColors.primaryColor,
+          color: AppColors.black,
           fontSize: 12,
         ),
       ),

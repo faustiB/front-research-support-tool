@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:research_support_tool/app/ui/components/custom_tab_cell.dart';
 import 'package:research_support_tool/app/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
 
@@ -13,23 +14,13 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Home v1"),
         ),
-        body: Column(
-          children: [
-            const Text("These are the journals"),
-            Expanded(
-
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: controller.journals.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Center(child: Text(controller.journals[index].title)),
-                  );
-                },
-              ),
-            ),
-          ],
+        body: ListView.builder(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          itemCount: controller.journals.length,
+          itemBuilder: (context, index) {
+            return CustomTabCell(journal: controller.journals[index]);
+          },
         ),
       ),
     );
