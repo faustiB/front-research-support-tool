@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:research_support_tool/app/ui/components/custom_tab_cell.dart';
 import 'package:research_support_tool/app/ui/pages/home/home_controller.dart';
 import 'package:get/get.dart';
+import '../../components/detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,7 +20,13 @@ class HomePage extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           itemCount: controller.journals.length,
           itemBuilder: (context, index) {
-            return CustomTabCell(journal: controller.journals[index]);
+            return InkWell(
+                onTap: () {
+                  Get.to(() => DetailPage(
+                      title: controller.journals[index].title,
+                      description: controller.journals[index].description));
+                },
+                child: CustomTabCell(journal: controller.journals[index]));
           },
         ),
       ),
