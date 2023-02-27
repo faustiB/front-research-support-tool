@@ -12,6 +12,9 @@ local.properties
 # Log/OS Files
 *.log
 
+# Dotenv files
+.env
+
 # Android Studio generated files and folders
 captures/
 .externalNativeBuild/
