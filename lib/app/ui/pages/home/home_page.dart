@@ -22,9 +22,7 @@ class HomePage extends StatelessWidget {
           itemBuilder: (context, index) {
             return InkWell(
                 onTap: () {
-                  Get.to(() => DetailPage(
-                      title: controller.journals[index].title,
-                      description: controller.journals[index].description));
+                  Get.to(() => DetailPage(journal: controller.journals[index]));
                 },
                 child: CustomTabCell(journal: controller.journals[index]));
           },
