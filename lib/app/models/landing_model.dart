@@ -1,16 +1,5 @@
 import 'dart:convert';
 
-/*[
-  {
-    "collection": "special_issues",
-    "count": 2
-  },
-  {
-    "collection": "journals",
-    "count": 10
-  }
-]*/
-
 List<LandingModel> landingModelFromJson(String str) =>
     List<LandingModel>.from(json.decode(str).map((x) => LandingModel.fromJson(x)));
 

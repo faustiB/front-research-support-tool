@@ -18,7 +18,6 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(journal.title),
       ),
-      //TODO: Modify view. This is just for testing purposes
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
