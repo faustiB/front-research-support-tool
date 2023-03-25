@@ -108,11 +108,18 @@ class _HomePageState extends State<HomePage> {
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
-                        child: const TextField(
-                          decoration: InputDecoration(
+                        child: TextField(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Search',
                           ),
+                          onChanged: (text) {
+                            if (text.isEmpty) {
+                              controller.getJournals();
+                            } else {
+                              controller.searchJournalsByTitle(text);
+                            }
+                          },
                         ),
                       ),
                     ],

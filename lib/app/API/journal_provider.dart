@@ -4,4 +4,7 @@ import 'package:get/get.dart';
 class JournalProvider extends GetConnect {
   Future<Response> getJournals() async =>
       await get('${dotenv.env['BACKEND_API']}/journals');
+
+  Future<Response> searchJournalsByTitle(String title) async =>
+      await get('${dotenv.env['BACKEND_API']}/journals/search/$title');
 }

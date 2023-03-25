@@ -31,6 +31,15 @@ class HomeController extends GetxController {
     }
   }
 
+  searchJournalsByTitle(String title) async {
+    var response = await _journalProvider.searchJournalsByTitle(title);
+    if (!response.status.hasError) {
+      journals.value = journalModelFromJson(response.bodyString!);
+    } else {
+      //TODO: Handle error from call to API
+    }
+  }
+
   getNumbersByDocumentType() async {
     var response = await _landingProvider.getNumbersByDocumentType();
     if (!response.status.hasError) {
