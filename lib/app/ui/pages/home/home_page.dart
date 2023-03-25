@@ -9,10 +9,11 @@ import '../../components//menu_item.dart';
 
 class HomePage extends StatefulWidget {
 
-  const HomePage({super.key});
-  
+   HomePage({super.key, required this.showSearchBar});
+  bool showSearchBar = false;
   @override
   State<HomePage> createState() => _HomePageState();
+
 
   static String beautifyName(String name) {
     switch (name) {
@@ -26,9 +27,17 @@ class HomePage extends StatefulWidget {
         return name;
     }
   }
+
+
 }
 
 class _HomePageState extends State<HomePage> {
+  void refresh() {
+    setState(() {
+      widget.showSearchBar = !widget.showSearchBar;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetX<HomeController>(
@@ -40,7 +49,7 @@ class _HomePageState extends State<HomePage> {
               flex: 1,
               child: Container(
                 color: AppColors.primaryColor,
-                child: const CustomMenuBar(),
+                child: CustomMenuBar(showSearchBar: widget.showSearchBar, notifyParent: refresh),
               ),
             ),
             Expanded(
@@ -66,6 +75,51 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              height: widget.showSearchBar ? 70 : 0,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              color: AppColors.primaryColor,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: widget.showSearchBar ? 1.0 : 0.0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    color: AppColors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Icon(
+                        Icons.search,
+                        color: AppColors.primaryColor),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                            top: BorderSide(width: 1.0, color: AppColors.primaryColor),
+                            left: BorderSide(width: 1.0, color: AppColors.primaryColor),
+                            right: BorderSide(width: 1.0, color: AppColors.primaryColor),
+                            bottom: BorderSide(width: 1.0, color: AppColors.primaryColor),
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Search',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               flex: 8,
               child: ListView.builder(
@@ -88,9 +142,16 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class CustomMenuBar extends StatelessWidget {
-  const CustomMenuBar({super.key});
+class CustomMenuBar extends StatefulWidget {
+  bool showSearchBar;
+  final Function() notifyParent;
+  CustomMenuBar({super.key, required this.showSearchBar, required this.notifyParent});
 
+  @override
+  State<CustomMenuBar> createState() => _CustomMenuBarState();
+}
+
+class _CustomMenuBarState extends State<CustomMenuBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,6 +175,16 @@ class CustomMenuBar extends StatelessWidget {
             child: const CustomMenuItem(
               title: "Add ",
               icon: Icons.add,
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              setState(() => {widget.showSearchBar = !widget.showSearchBar});
+              widget.notifyParent();
+            },
+            child: const CustomMenuItem(
+              title: "Search ",
+              icon: Icons.search,
             ),
           ),
           InkWell(

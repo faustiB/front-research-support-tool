@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: HomeBinding(),
       theme:AppThemeData.lightTheme,
-      home: const HomePage(),
+      home: HomePage(showSearchBar: false),
       getPages: AppPages.pages ,
     );
   }
