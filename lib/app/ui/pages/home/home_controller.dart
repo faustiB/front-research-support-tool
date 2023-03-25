@@ -17,11 +17,15 @@ class HomeController extends GetxController {
   final LandingProvider _landingProvider = LandingProvider();
 
   var journals = [].obs;
+  var specialIssues = [].obs;
+  var conferences = [].obs;
+
   var isLoading = false.obs;
 
   var numbersByDocumentType = [].obs;
   var isLoadingNumbersByDocumentType = false.obs;
 
+  /// Journals Section
   getJournals() async {
     var response = await _journalProvider.getJournals();
     if (!response.status.hasError) {

@@ -9,8 +9,9 @@ import '../../components//menu_item.dart';
 
 class HomePage extends StatefulWidget {
 
-   HomePage({super.key, required this.showSearchBar});
+  HomePage({super.key, required this.showSearchBar});
   bool showSearchBar = false;
+  String section = "journals";
   @override
   State<HomePage> createState() => _HomePageState();
 
@@ -66,6 +67,19 @@ class _HomePageState extends State<HomePage> {
                       InkWell(
                         onTap: () {
                           //TODO: implement filter by document type
+                          if (controller.numbersByDocumentType[i].collection == "journals") {
+                            widget.section = "journals";
+                            controller.getJournals();
+                          }
+                          if (controller.numbersByDocumentType[i].collection == "special_issues") {
+                            widget.section = "special_issues";
+                            //TODO: Implement for special issues in controller
+                          }
+
+                          if (controller.numbersByDocumentType[i].collection == "conferences") {
+                            widget.section = "conferences";
+                            //TODO: Implement for conferences in controller
+                          }
                         },
                         child: CustomDocTabCell(
                             collection: HomePage.beautifyName(controller.numbersByDocumentType[i].collection),
@@ -115,9 +129,33 @@ class _HomePageState extends State<HomePage> {
                           ),
                           onChanged: (text) {
                             if (text.isEmpty) {
-                              controller.getJournals();
+                              switch (widget.section) {
+                                case "journals":
+                                  controller.getJournals();
+                                  break;
+                                case "special_issues":
+                                  //TODO: controller.getSpecialIssues();
+                                  break;
+                                case "conferences":
+                                  //TODO: controller.getJournals();
+                                  break;
+                                default:
+                                  break;
+                              }
                             } else {
-                              controller.searchJournalsByTitle(text);
+                              switch (widget.section) {
+                                case "journals":
+                                  controller.searchJournalsByTitle(text);
+                                  break;
+                                case "special_issues":
+                                //TODO: controller.searchSpecialIssuesByTitle(text);
+                                  break;
+                                case "conferences":
+                                //TODO: controller.searchConferencesByTitle(text);
+                                  break;
+                                default:
+                                  break;
+                              }
                             }
                           },
                         ),
