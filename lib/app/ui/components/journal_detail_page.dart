@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:research_support_tool/app/models/journal_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:research_support_tool/app/ui/components/row_of_detail.dart';
 
-class DetailPage extends StatelessWidget {
+class JournalDetailPage extends StatelessWidget {
   final JournalModel journal;
 
-  const DetailPage({
+  const JournalDetailPage({
     super.key,
     required this.journal,
   });
@@ -82,30 +83,3 @@ class DetailPage extends StatelessWidget {
   }
 }
 
-class RowOfDetail extends StatelessWidget {
-  final String title;
-  final String content;
-
-  const RowOfDetail({
-    super.key,
-    required this.title,
-    required this.content,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 16, bottom: 16),
-          alignment: Alignment.centerLeft,
-          child: Text(title, style: Theme.of(context).textTheme.headline4),
-        ),
-        Text(
-          content,
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-      ],
-    );
-  }
-}

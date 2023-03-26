@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:research_support_tool/app/ui/components/custom_doc_tab_cell.dart';
 import 'package:research_support_tool/app/ui/components/custom_tab_cell.dart';
 import 'package:research_support_tool/app/ui/pages/home/home_controller.dart';
-import '../../components/detail_page.dart';
+import '../../components/journal_detail_page.dart';
+import '../../components/special_issues_detail_page.dart';
 import '../../theme/app_colors.dart';
 import '../../components//menu_item.dart';
 
@@ -66,20 +67,6 @@ class _HomePageState extends State<HomePage> {
                     for (int i = 0; i < controller.numbersByDocumentType.length; i++)
                       InkWell(
                         onTap: () {
-                          //TODO: implement filter by document type
-                          if (controller.numbersByDocumentType[i].collection == "journals") {
-                            widget.section = "journals";
-                            controller.getJournals();
-                          }
-                          if (controller.numbersByDocumentType[i].collection == "special_issues") {
-                            widget.section = "special_issues";
-                            //TODO: Implement for special issues in controller
-                          }
-
-                          if (controller.numbersByDocumentType[i].collection == "conferences") {
-                            widget.section = "conferences";
-                            //TODO: Implement for conferences in controller
-                          }
                         },
                         child: CustomDocTabCell(
                             collection: HomePage.beautifyName(controller.numbersByDocumentType[i].collection),
@@ -130,12 +117,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                           onChanged: (text) {
                             if (text.isEmpty) {
-                              switch (widget.section) {
+                              switch (controller.section) {
                                 case "journals":
                                   controller.getJournals();
                                   break;
                                 case "special_issues":
-                                  //TODO: controller.getSpecialIssues();
+                                  controller.getSpecialIssues();
                                   break;
                                 case "conferences":
                                   //TODO: controller.getJournals();
@@ -144,12 +131,12 @@ class _HomePageState extends State<HomePage> {
                                   break;
                               }
                             } else {
-                              switch (widget.section) {
+                              switch (controller.section) {
                                 case "journals":
                                   controller.searchJournalsByTitle(text);
                                   break;
                                 case "special_issues":
-                                //TODO: controller.searchSpecialIssuesByTitle(text);
+                                  //TODO: controller.searchSpecialIssuesByTitle(text);
                                   break;
                                 case "conferences":
                                 //TODO: controller.searchConferencesByTitle(text);
@@ -175,7 +162,12 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   return InkWell(
                       onTap: () {
-                        Get.to(() => DetailPage(journal: controller.responseRows[index]));
+                        if (controller.section == "journals") {
+                          Get.to(() => JournalDetailPage(journal: controller.responseRows[index]));
+                        } else if (controller.section == "special_issues") {
+                          Get.to(() => SpecialIssueDetailPage(specialIssue: controller.responseRows[index]));
+                        }
+
                       },
                       child: handleCellType(controller, index),
                   );
