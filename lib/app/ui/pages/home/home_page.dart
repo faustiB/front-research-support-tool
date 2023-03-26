@@ -83,7 +83,8 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: CustomDocTabCell(
                             collection: HomePage.beautifyName(controller.numbersByDocumentType[i].collection),
-                            docCount: controller.numbersByDocumentType[i].count),
+                            docCount: controller.numbersByDocumentType[i].count,
+                            section: widget.section,),
                       ),
                   ],
                 ),

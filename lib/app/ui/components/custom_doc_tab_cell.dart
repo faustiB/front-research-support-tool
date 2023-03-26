@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:research_support_tool/app/ui/theme/app_colors.dart';
 
 class CustomDocTabCell extends StatefulWidget {
   final String collection;
   final int docCount;
   bool isHovering = false;
+  String section = "journals";
 
-  CustomDocTabCell({super.key,  required this.collection, required this.docCount,});
+  CustomDocTabCell({super.key,  required this.collection, required this.docCount, required this.section});
 
   @override
   State<CustomDocTabCell> createState() => _CustomDocTabCellState();
@@ -20,7 +22,21 @@ class _CustomDocTabCellState extends State<CustomDocTabCell> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                 SnackBar(
+                  content: Text('${widget.collection} loaded'),
+                   backgroundColor: AppColors.primaryColor,
+                   shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                     side: const BorderSide(color: AppColors.primaryColor),
+                ),
+                   margin: const EdgeInsets.all(20),
+                   behavior: SnackBarBehavior.floating,
+                   duration: const Duration(seconds: 2),
+                 ),
+              );
+            },
             onHover: (hovering) {
               setState(() {
                 widget.isHovering = hovering;
