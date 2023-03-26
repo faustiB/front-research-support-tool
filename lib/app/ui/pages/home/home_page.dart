@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
       case "special_issues":
         return "Special Issues";
       case "conferences":
-        return "Conferences ";
+        return "Conferences";
       default:
         return name;
     }
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                         child: CustomDocTabCell(
                             collection: HomePage.beautifyName(controller.numbersByDocumentType[i].collection),
                             docCount: controller.numbersByDocumentType[i].count,
-                            section: widget.section,),
+                            controller: controller,),
                       ),
                   ],
                 ),
@@ -171,13 +171,13 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
-                itemCount: controller.journals.length,
+                itemCount: controller.responseRows.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                       onTap: () {
-                        Get.to(() => DetailPage(journal: controller.journals[index]));
+                        Get.to(() => DetailPage(journal: controller.responseRows[index]));
                       },
-                      child: CustomTabCell(journal: controller.journals[index]));
+                      child: CustomTabCell(journal: controller.responseRows[index]));
                 },
               ),
             ),

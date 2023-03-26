@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:research_support_tool/app/ui/theme/app_colors.dart';
+
+import '../pages/home/home_controller.dart';
 
 class CustomDocTabCell extends StatefulWidget {
   final String collection;
   final int docCount;
   bool isHovering = false;
-  String section = "journals";
+  HomeController controller;
 
-  CustomDocTabCell({super.key,  required this.collection, required this.docCount, required this.section});
+  CustomDocTabCell({super.key,  required this.collection, required this.docCount, required this.controller});
 
   @override
   State<CustomDocTabCell> createState() => _CustomDocTabCellState();
@@ -23,6 +26,7 @@ class _CustomDocTabCellState extends State<CustomDocTabCell> {
         children: [
           InkWell(
             onTap: () {
+              processClick();
               ScaffoldMessenger.of(context).showSnackBar(
                  SnackBar(
                   content: Text('${widget.collection} loaded'),
@@ -86,5 +90,17 @@ class _CustomDocTabCellState extends State<CustomDocTabCell> {
         ],
       ),
     );
+  }
+
+  void processClick() {
+    if (widget.collection == "Journals") {
+      widget.controller.getJournals();
+    } else if (widget.collection == "Special Issues") {
+      //TODO: widget.controller.getSpecialIssues();
+      print("Special Issues");
+    } else if (widget.collection == "Conferences") {
+      //TODO: widget.controller.getConferences();
+      print("Conferences");
+    }
   }
 }

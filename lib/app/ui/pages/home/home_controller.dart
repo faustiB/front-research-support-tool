@@ -16,7 +16,7 @@ class HomeController extends GetxController {
   final JournalProvider _journalProvider = JournalProvider();
   final LandingProvider _landingProvider = LandingProvider();
 
-  var journals = [].obs;
+  var responseRows = [].obs;
   var specialIssues = [].obs;
   var conferences = [].obs;
 
@@ -29,7 +29,7 @@ class HomeController extends GetxController {
   getJournals() async {
     var response = await _journalProvider.getJournals();
     if (!response.status.hasError) {
-      journals.value = journalModelFromJson(response.bodyString!);
+      responseRows.value = journalModelFromJson(response.bodyString!);
     } else {
       //TODO: Handle error from call to API
     }
@@ -38,7 +38,7 @@ class HomeController extends GetxController {
   searchJournalsByTitle(String title) async {
     var response = await _journalProvider.searchJournalsByTitle(title);
     if (!response.status.hasError) {
-      journals.value = journalModelFromJson(response.bodyString!);
+      responseRows.value = journalModelFromJson(response.bodyString!);
     } else {
       //TODO: Handle error from call to API
     }
