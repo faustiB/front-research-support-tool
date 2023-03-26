@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:research_support_tool/app/API/journal_provider.dart';
 import 'package:research_support_tool/app/API/landing_provider.dart';
+import 'package:research_support_tool/app/API/special_issues_provider.dart';
 import 'package:research_support_tool/app/models/journal_model.dart';
 import 'package:research_support_tool/app/models/landing_model.dart';
+import 'package:research_support_tool/app/models/special_issues_model.dart';
 
 class HomeController extends GetxController {
 
@@ -15,6 +17,9 @@ class HomeController extends GetxController {
 
   final JournalProvider _journalProvider = JournalProvider();
   final LandingProvider _landingProvider = LandingProvider();
+  final SpecialIssuesProvider _specialIssuesProvider = SpecialIssuesProvider();
+
+  var section = "journals";
 
   var responseRows = [].obs;
   var specialIssues = [].obs;
@@ -48,6 +53,16 @@ class HomeController extends GetxController {
     var response = await _landingProvider.getNumbersByDocumentType();
     if (!response.status.hasError) {
       numbersByDocumentType.value = landingModelFromJson(response.bodyString!);
+    } else {
+      //TODO: Handle error from call to API
+    }
+  }
+
+  /// Special Issues Section
+  getSpecialIssues() async {
+    var response = await _specialIssuesProvider.getSpecialIssues();
+    if (!response.status.hasError) {
+      responseRows.value = specialIssuesModelFromJson(response.bodyString!);
     } else {
       //TODO: Handle error from call to API
     }

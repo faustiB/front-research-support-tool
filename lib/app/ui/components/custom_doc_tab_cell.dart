@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:research_support_tool/app/ui/theme/app_colors.dart';
 
 import '../pages/home/home_controller.dart';
@@ -94,13 +93,13 @@ class _CustomDocTabCellState extends State<CustomDocTabCell> {
 
   void processClick() {
     if (widget.collection == "Journals") {
+      widget.controller.section = "journals";
       widget.controller.getJournals();
     } else if (widget.collection == "Special Issues") {
-      //TODO: widget.controller.getSpecialIssues();
-      print("Special Issues");
+      widget.controller.section = "special_issues";
+      widget.controller.getSpecialIssues();
     } else if (widget.collection == "Conferences") {
       //TODO: widget.controller.getConferences();
-      print("Conferences");
     }
   }
 }

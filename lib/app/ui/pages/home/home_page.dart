@@ -177,7 +177,8 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Get.to(() => DetailPage(journal: controller.responseRows[index]));
                       },
-                      child: CustomTabCell(journal: controller.responseRows[index]));
+                      child: handleCellType(controller, index),
+                  );
                 },
               ),
             ),
@@ -185,6 +186,21 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  CustomTabCell? handleCellType(HomeController controller, int index) {
+    if (controller.section == "journals" ) {
+      return CustomTabCell(
+        journal: controller.responseRows[index],
+        specialIssue: null,
+      );
+    } else if (controller.section == "special_issues" ) {
+      return CustomTabCell(
+        journal: null,
+        specialIssue: controller.responseRows[index],
+      );
+    }
+    return null;
   }
 }
 
