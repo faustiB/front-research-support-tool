@@ -67,4 +67,13 @@ class HomeController extends GetxController {
       //TODO: Handle error from call to API
     }
   }
+
+  searchSpecialIssuesByTitle(String title) async {
+    var response = await _specialIssuesProvider.searchSpecialIssuesByTitle(title);
+    if (!response.status.hasError) {
+      responseRows.value = specialIssuesModelFromJson(response.bodyString!);
+    } else {
+      //TODO: Handle error from call to API
+    }
+  }
 }

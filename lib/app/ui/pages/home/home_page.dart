@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                                   controller.searchJournalsByTitle(text);
                                   break;
                                 case "special_issues":
-                                  //TODO: controller.searchSpecialIssuesByTitle(text);
+                                  controller.searchSpecialIssuesByTitle(text);
                                   break;
                                 case "conferences":
                                 //TODO: controller.searchConferencesByTitle(text);
