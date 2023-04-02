@@ -113,66 +113,10 @@ class _HomePageState extends State<HomePage> {
                             hintText: 'Search',
                           ),
                           onSubmitted: (text) async {
-                            if (text.isEmpty) {
-                              switch (widget.section) {
-                                case "journals":
-                                  controller.getJournals();
-                                  break;
-                                case "special_issues":
-                                  controller.getSpecialIssues();
-                                  break;
-                                case "conferences":
-                                  break;
-                                default:
-                                  break;
-                              }
-                            } else {
-                              switch (controller.section) {
-                                case "journals":
-                                  await controller.searchJournalsByTitle(text);
-                                  if (controller.failedCall.isTrue) showSnackBar(context, "No Journals found");
-                                  break;
-                                case "special_issues":
-                                  await controller.searchSpecialIssuesByTitle(text);
-                                  if (controller.failedCall.isTrue) showSnackBar(context, "No Special Issues found");
-                                  break;
-                                case "conferences":
-                                  break;
-                                default:
-                                  break;
-                              }
-                            }
+                            await handleCallOnSubmitted(text, controller, context);
                           },
                           onChanged: (text) async {
-                            if (text.isEmpty) {
-                              switch (controller.section) {
-                                case "journals":
-                                  await controller.getJournals();
-                                  break;
-                                case "special_issues":
-                                  await controller.getSpecialIssues();
-                                  break;
-                                case "conferences":
-                                  //TODO: controller.getJournals();
-                                  break;
-                                default:
-                                  break;
-                              }
-                            } else {
-                              switch (controller.section) {
-                                case "journals":
-                                  controller.searchJournalsByTitle(text);
-                                  break;
-                                case "special_issues":
-                                  controller.searchSpecialIssuesByTitle(text);
-                                  break;
-                                case "conferences":
-                                  //TODO: controller.searchConferencesByTitle(text);
-                                  break;
-                                default:
-                                  break;
-                              }
-                            }
+                            await handleCallOnChanged(text, controller);
                           },
                         ),
                       ),
@@ -205,6 +149,70 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> handleCallOnChanged(String text, HomeController controller) async {
+    if (text.isEmpty) {
+      switch (controller.section) {
+        case "journals":
+          await controller.getJournals();
+          break;
+        case "special_issues":
+          await controller.getSpecialIssues();
+          break;
+        case "conferences":
+          //TODO: controller.getConferences();
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (controller.section) {
+        case "journals":
+          controller.searchJournalsByTitle(text);
+          break;
+        case "special_issues":
+          controller.searchSpecialIssuesByTitle(text);
+          break;
+        case "conferences":
+          //TODO: controller.searchConferencesByTitle(text);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  Future<void> handleCallOnSubmitted(String text, HomeController controller, BuildContext context) async {
+    if (text.isEmpty) {
+      switch (widget.section) {
+        case "journals":
+          controller.getJournals();
+          break;
+        case "special_issues":
+          controller.getSpecialIssues();
+          break;
+        case "conferences":
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (controller.section) {
+        case "journals":
+          await controller.searchJournalsByTitle(text);
+          if (controller.failedCall.isTrue) showSnackBar(context, "No Journals found");
+          break;
+        case "special_issues":
+          await controller.searchSpecialIssuesByTitle(text);
+          if (controller.failedCall.isTrue) showSnackBar(context, "No Special Issues found");
+          break;
+        case "conferences":
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(BuildContext context, String text) {
