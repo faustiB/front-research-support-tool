@@ -22,10 +22,8 @@ class HomeController extends GetxController {
   var section = "journals";
 
   var responseRows = [].obs;
-  var specialIssues = [].obs;
-  var conferences = [].obs;
 
-  var isLoading = false.obs;
+  var failedCall = false.obs;
 
   var numbersByDocumentType = [].obs;
   var isLoadingNumbersByDocumentType = false.obs;
@@ -36,7 +34,8 @@ class HomeController extends GetxController {
     if (!response.status.hasError) {
       responseRows.value = journalModelFromJson(response.bodyString!);
     } else {
-      //TODO: Handle error from call to API
+      failedCall.value = true;
+      responseRows.value = [];
     }
   }
 
@@ -45,7 +44,8 @@ class HomeController extends GetxController {
     if (!response.status.hasError) {
       responseRows.value = journalModelFromJson(response.bodyString!);
     } else {
-      //TODO: Handle error from call to API
+      failedCall.value = true;
+      responseRows.value = [];
     }
   }
 
@@ -64,7 +64,8 @@ class HomeController extends GetxController {
     if (!response.status.hasError) {
       responseRows.value = specialIssuesModelFromJson(response.bodyString!);
     } else {
-      //TODO: Handle error from call to API
+      failedCall.value = true;
+      responseRows.value = [];
     }
   }
 
@@ -73,7 +74,8 @@ class HomeController extends GetxController {
     if (!response.status.hasError) {
       responseRows.value = specialIssuesModelFromJson(response.bodyString!);
     } else {
-      //TODO: Handle error from call to API
+      failedCall.value = true;
+      responseRows.value = [];
     }
   }
 }

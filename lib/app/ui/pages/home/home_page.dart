@@ -3,19 +3,20 @@ import 'package:get/get.dart';
 import 'package:research_support_tool/app/ui/components/custom_doc_tab_cell.dart';
 import 'package:research_support_tool/app/ui/components/custom_tab_cell.dart';
 import 'package:research_support_tool/app/ui/pages/home/home_controller.dart';
+
+import '../../components//menu_item.dart';
 import '../../components/journal_detail_page.dart';
 import '../../components/special_issues_detail_page.dart';
 import '../../theme/app_colors.dart';
-import '../../components//menu_item.dart';
 
 class HomePage extends StatefulWidget {
-
   HomePage({super.key, required this.showSearchBar});
+
   bool showSearchBar = false;
   String section = "journals";
+
   @override
   State<HomePage> createState() => _HomePageState();
-
 
   static String beautifyName(String name) {
     switch (name) {
@@ -29,8 +30,6 @@ class HomePage extends StatefulWidget {
         return name;
     }
   }
-
-
 }
 
 class _HomePageState extends State<HomePage> {
@@ -66,12 +65,12 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     for (int i = 0; i < controller.numbersByDocumentType.length; i++)
                       InkWell(
-                        onTap: () {
-                        },
+                        onTap: () {},
                         child: CustomDocTabCell(
-                            collection: HomePage.beautifyName(controller.numbersByDocumentType[i].collection),
-                            docCount: controller.numbersByDocumentType[i].count,
-                            controller: controller,),
+                          collection: HomePage.beautifyName(controller.numbersByDocumentType[i].collection),
+                          docCount: controller.numbersByDocumentType[i].count,
+                          controller: controller,
+                        ),
                       ),
                   ],
                 ),
@@ -93,9 +92,7 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Icon(
-                        Icons.search,
-                        color: AppColors.primaryColor),
+                      const Icon(Icons.search, color: AppColors.primaryColor),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.8,
                         margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -115,14 +112,45 @@ class _HomePageState extends State<HomePage> {
                             border: InputBorder.none,
                             hintText: 'Search',
                           ),
-                          onChanged: (text) {
+                          onSubmitted: (text) async {
                             if (text.isEmpty) {
-                              switch (controller.section) {
+                              switch (widget.section) {
                                 case "journals":
                                   controller.getJournals();
                                   break;
                                 case "special_issues":
                                   controller.getSpecialIssues();
+                                  break;
+                                case "conferences":
+                                  break;
+                                default:
+                                  break;
+                              }
+                            } else {
+                              switch (controller.section) {
+                                case "journals":
+                                  await controller.searchJournalsByTitle(text);
+                                  if (controller.failedCall.isTrue) showSnackBar(context, "No Journals found");
+                                  break;
+                                case "special_issues":
+                                  await controller.searchSpecialIssuesByTitle(text);
+                                  if (controller.failedCall.isTrue) showSnackBar(context, "No Special Issues found");
+                                  break;
+                                case "conferences":
+                                  break;
+                                default:
+                                  break;
+                              }
+                            }
+                          },
+                          onChanged: (text) async {
+                            if (text.isEmpty) {
+                              switch (controller.section) {
+                                case "journals":
+                                  await controller.getJournals();
+                                  break;
+                                case "special_issues":
+                                  await controller.getSpecialIssues();
                                   break;
                                 case "conferences":
                                   //TODO: controller.getJournals();
@@ -139,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                                   controller.searchSpecialIssuesByTitle(text);
                                   break;
                                 case "conferences":
-                                //TODO: controller.searchConferencesByTitle(text);
+                                  //TODO: controller.searchConferencesByTitle(text);
                                   break;
                                 default:
                                   break;
@@ -161,15 +189,14 @@ class _HomePageState extends State<HomePage> {
                 itemCount: controller.responseRows.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                      onTap: () {
-                        if (controller.section == "journals") {
-                          Get.to(() => JournalDetailPage(journal: controller.responseRows[index]));
-                        } else if (controller.section == "special_issues") {
-                          Get.to(() => SpecialIssueDetailPage(specialIssue: controller.responseRows[index]));
-                        }
-
-                      },
-                      child: handleCellType(controller, index),
+                    onTap: () {
+                      if (controller.section == "journals") {
+                        Get.to(() => JournalDetailPage(journal: controller.responseRows[index]));
+                      } else if (controller.section == "special_issues") {
+                        Get.to(() => SpecialIssueDetailPage(specialIssue: controller.responseRows[index]));
+                      }
+                    },
+                    child: handleCellType(controller, index),
                   );
                 },
               ),
@@ -180,13 +207,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(BuildContext context, String text) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(text),
+        backgroundColor: AppColors.primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: AppColors.primaryColor),
+        ),
+        margin: const EdgeInsets.all(20),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 8),
+      ),
+    );
+  }
+
   CustomTabCell? handleCellType(HomeController controller, int index) {
-    if (controller.section == "journals" ) {
+    if (controller.section == "journals") {
       return CustomTabCell(
         journal: controller.responseRows[index],
         specialIssue: null,
       );
-    } else if (controller.section == "special_issues" ) {
+    } else if (controller.section == "special_issues") {
       return CustomTabCell(
         journal: null,
         specialIssue: controller.responseRows[index],
@@ -199,6 +242,7 @@ class _HomePageState extends State<HomePage> {
 class CustomMenuBar extends StatefulWidget {
   bool showSearchBar;
   final Function() notifyParent;
+
   CustomMenuBar({super.key, required this.showSearchBar, required this.notifyParent});
 
   @override
