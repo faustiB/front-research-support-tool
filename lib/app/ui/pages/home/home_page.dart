@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:research_support_tool/app/ui/components/custom_doc_tab_cell.dart';
 import 'package:research_support_tool/app/ui/components/custom_tab_cell.dart';
+import 'package:research_support_tool/app/ui/pages/add/add_page.dart';
 import 'package:research_support_tool/app/ui/pages/home/home_controller.dart';
 
 import '../../components//menu_item.dart';
@@ -161,7 +162,7 @@ class _HomePageState extends State<HomePage> {
           await controller.getSpecialIssues();
           break;
         case "conferences":
-          //TODO: controller.getConferences();
+          //TODO: controller.getConferences(); TO IMPLEMENT
           break;
         default:
           break;
@@ -175,7 +176,7 @@ class _HomePageState extends State<HomePage> {
           controller.searchSpecialIssuesByTitle(text);
           break;
         case "conferences":
-          //TODO: controller.searchConferencesByTitle(text);
+          //TODO: controller.searchConferencesByTitle(text); TO IMPLEMENT
           break;
         default:
           break;
@@ -267,16 +268,7 @@ class _CustomMenuBarState extends State<CustomMenuBar> {
         children: [
           InkWell(
             onTap: () {
-              //TODO Implent go to different pages on menu (Get.To)
-            },
-            child: const CustomMenuItem(
-              title: "Home",
-              icon: Icons.home,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              //TODO Implent go to different pages on menu (Get.To)
+              Get.to(() => AddPage());
             },
             child: const CustomMenuItem(
               title: "Add ",
@@ -291,15 +283,6 @@ class _CustomMenuBarState extends State<CustomMenuBar> {
             child: const CustomMenuItem(
               title: "Search ",
               icon: Icons.search,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              //TODO Implent go to different pages on menu (Get.To)
-            },
-            child: const CustomMenuItem(
-              title: "My Profile",
-              icon: Icons.person,
             ),
           ),
         ],
