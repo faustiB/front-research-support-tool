@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:research_support_tool/app/ui/pages/add/add_controller.dart';
+import 'package:research_support_tool/app/ui/pages/add/add_journal_page.dart';
 
 import '../../theme/app_colors.dart';
 
 class AddPage extends StatefulWidget {
-  AddPage({Key? key}) : super(key: key);
+  const AddPage({Key? key}) : super(key: key);
 
   @override
   State<AddPage> createState() => _AddPageState();
@@ -93,7 +94,7 @@ class _AddPageState extends State<AddPage> {
                 }
               },
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
@@ -123,7 +124,7 @@ class _AddPageState extends State<AddPage> {
                               labelText: 'Username',
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextField(
                             controller: controller.passwordController.value,
                             obscureText: true,
@@ -147,7 +148,9 @@ class _AddPageState extends State<AddPage> {
                             if (controller.failedAttempt.value) {
                               showSnackbar(context, "Login failed");
                             } else {
+                              Get.back();
                               showSnackbar(context, "Login successful");
+                              Get.to(() =>  AddJournalPage(), transition: Transition.rightToLeft);
                             }
                             //TODO: Get to form page for Journals
                           },
