@@ -2,103 +2,185 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:research_support_tool/app/ui/pages/add/add_controller.dart';
 
+import '../../theme/app_colors.dart';
+
 class AddPage extends StatefulWidget {
   AddPage({Key? key}) : super(key: key);
+
   @override
   State<AddPage> createState() => _AddPageState();
 }
 
 class _AddPageState extends State<AddPage> {
   final controller = Get.put(AddController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Add a new item"),
-        ),
-        body: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+      appBar: AppBar(
+        title: const Text("Add a new item"),
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Theme.of(context).primaryColor,
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              ),
+              child: const Text(
+                "Add Special Issue",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
-                onPressed: () {
-                  if (controller.token.value == "") {
-                    //alert dialog with form to login
-                    Get.dialog(
-                      AlertDialog(
-                        title: const Text("Login"),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            TextField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Username',
-                              ),
+              ),
+              onPressed: () {
+                if (controller.token.value == "") {
+                  //alert dialog with form to login
+                  Get.dialog(
+                    AlertDialog(
+                      title: const Text("Login"),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: controller.usernameController.value,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Username',
                             ),
-                            SizedBox(height: 10),
-                            TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Password',
-                              ),
-                            ),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: const Text('Cancel'),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              //TODO Implement call to login
-                              //controller.login();
-                            },
-                            child: const Text('Login'),
+                          const SizedBox(height: 40),
+                          TextField(
+                            controller: controller.passwordController.value,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Password',
+                            ),
                           ),
                         ],
                       ),
-                    );
-                  } else {
-                    Get.toNamed("/add/special_issue");
-                  }
-                },
-                child: const Text(
-                  "Add Special Issue",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            //TODO Implement call to login
+                            await controller.login();
+                            if (controller.failedAttempt.value) {
+                              showSnackbar(context, "Login failed");
+                            } else {
+                              showSnackbar(context, "Login successful");
+                            }
+                            //TODO: GEt to form page for special issues
+                          },
+                          child: const Text('Login'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  print("token : ${controller.token.value}");
+                  //TODO: add special issue directly to form
+                }
+              },
+            ),
+            SizedBox(width: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Theme.of(context).primaryColor,
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              ),
+              child: const Text(
+                "Add Journal",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                ),
-                onPressed: () {},
-                child: const Text(
-                  "Add Journal",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
+              onPressed: () {
+                if (controller.token.value == "") {
+                  //alert dialog with form to login
+                  Get.dialog(
+                    AlertDialog(
+                      title: const Text("Login"),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children:  [
+                          TextField(
+                            controller: controller.usernameController.value,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Username',
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          TextField(
+                            controller: controller.passwordController.value,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Password',
+                            ),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await controller.login();
+                            if (controller.failedAttempt.value) {
+                              showSnackbar(context, "Login failed");
+                            } else {
+                              showSnackbar(context, "Login successful");
+                            }
+                            //TODO: Get to form page for Journals
+                          },
+                          child: const Text('Login'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  print("token : ${controller.token.value}");
+                  //TODO: Go to add journal directly to form
+                }
+              },
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
+
+  void showSnackbar(BuildContext context, String text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(text),
+        backgroundColor: AppColors.primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: AppColors.primaryColor),
+        ),
+        margin: const EdgeInsets.all(20),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 8),
+      ),
+    );
   }
 }
