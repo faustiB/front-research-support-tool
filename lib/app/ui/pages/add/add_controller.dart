@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:research_support_tool/app/API/special_issues_provider.dart';
 
 import '../../../API/journal_provider.dart';
 import '../../../API/login_provider.dart';
@@ -16,11 +17,12 @@ class AddController extends GetxController {
 
   var loginProvider = LoginProvider();
   var journalProvider = JournalProvider();
+  var specialIssueProvider = SpecialIssuesProvider();
 
   var usernameController = TextEditingController().obs;
   var passwordController = TextEditingController().obs;
 
-  ///Text Editing controllers for insert.
+  ///Text Editing controllers for insert Journal.
   var titleController = TextEditingController().obs;
   var descriptionController = TextEditingController().obs;
   var editorialController = TextEditingController().obs;
@@ -29,6 +31,15 @@ class AddController extends GetxController {
   var issn13Controller = TextEditingController().obs;
   var quartileController = TextEditingController().obs;
   var quartileYearController = TextEditingController().obs;
+
+  ///Text Editing controllers for insert Special Issue.
+  var specialIssueTitleController = TextEditingController().obs;
+  var specialIssueJournalController = TextEditingController().obs;
+  var specialIssueSectionController = TextEditingController().obs;
+  var specialIssueWebPageController = TextEditingController().obs;
+  var specialIssueSubmissionDateController = TextEditingController().obs;
+  var specialIssueDescriptionController = TextEditingController().obs;
+  var specialIssueTagsController = TextEditingController().obs;
 
   login() async {
     var response = await loginProvider.login(usernameController.value.text, passwordController.value.text);
@@ -68,6 +79,40 @@ class AddController extends GetxController {
       Get.snackbar(
         "Error",
         "Error while adding journal",
+        backgroundColor: Colors.redAccent,
+        snackPosition: SnackPosition.BOTTOM,
+        snackStyle: SnackStyle.FLOATING,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  addSpecialIssue() async {
+    var specialIssue = {
+      "title": specialIssueTitleController.value.text,
+      "journal": specialIssueJournalController.value.text,
+      "section": specialIssueSectionController.value.text,
+      "webPage": specialIssueWebPageController.value.text,
+      "submissionDate": specialIssueSubmissionDateController.value.text,
+      "description": specialIssueDescriptionController.value.text,
+      "tags": specialIssueTagsController.value.text,
+    };
+    var response = await specialIssueProvider.insertSpecialIssue(specialIssue, token.value);
+    if (!response.status.hasError) {
+      Get.offAll(() => HomePage(
+            showSearchBar: false,
+          ));
+      Get.snackbar(
+        "Success",
+        "Special Issue added successfully",
+        backgroundColor: Colors.lightBlueAccent,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      Get.snackbar(
+        "Error",
+        "Error while adding special issue",
         backgroundColor: Colors.redAccent,
         snackPosition: SnackPosition.BOTTOM,
         snackStyle: SnackStyle.FLOATING,

@@ -4,6 +4,7 @@ import 'package:research_support_tool/app/ui/pages/add/add_controller.dart';
 import 'package:research_support_tool/app/ui/pages/add/add_journal_page.dart';
 
 import '../../theme/app_colors.dart';
+import 'add_special_issue.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({Key? key}) : super(key: key);
@@ -74,14 +75,14 @@ class _AddPageState extends State<AddPage> {
                         ),
                         TextButton(
                           onPressed: () async {
-                            //TODO Implement call to login
                             await controller.login();
                             if (controller.failedAttempt.value) {
                               showSnackbar(context, "Login failed");
                             } else {
+                              Get.back();
                               showSnackbar(context, "Login successful");
+                              Get.to(() => const AddSpecialIssuePage(), transition: Transition.rightToLeft);
                             }
-                            //TODO: GEt to form page for special issues
                           },
                           child: const Text('Login'),
                         ),
@@ -116,7 +117,7 @@ class _AddPageState extends State<AddPage> {
                       title: const Text("Login"),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children:  [
+                        children: [
                           TextField(
                             controller: controller.usernameController.value,
                             decoration: const InputDecoration(
@@ -150,7 +151,7 @@ class _AddPageState extends State<AddPage> {
                             } else {
                               Get.back();
                               showSnackbar(context, "Login successful");
-                              Get.to(() =>  AddJournalPage(), transition: Transition.rightToLeft);
+                              Get.to(() => AddJournalPage(), transition: Transition.rightToLeft);
                             }
                             //TODO: Get to form page for Journals
                           },
