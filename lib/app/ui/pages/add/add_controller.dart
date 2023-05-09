@@ -64,7 +64,7 @@ class AddController extends GetxController {
       "quartileYear": quartileYearController.value.text,
     };
     var response = await journalProvider.insertJournal(journal, token.value);
-    if (!response.status.hasError) {
+    if (response.statusCode == 201) {
       Get.offAll(() => HomePage(
             showSearchBar: false,
           ));
@@ -98,7 +98,7 @@ class AddController extends GetxController {
       "tags": specialIssueTagsController.value.text == "" ? [] : specialIssueTagsController.value.text.split(",")
     };
     var response = await specialIssueProvider.insertSpecialIssue(specialIssue, token.value);
-    if (!response.statusCode.isEven) {
+    if (response.statusCode == 201) {
       Get.offAll(() => HomePage(
             showSearchBar: false,
           ));
