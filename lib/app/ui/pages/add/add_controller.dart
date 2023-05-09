@@ -92,13 +92,13 @@ class AddController extends GetxController {
       "title": specialIssueTitleController.value.text,
       "journal": specialIssueJournalController.value.text,
       "section": specialIssueSectionController.value.text,
-      "webPage": specialIssueWebPageController.value.text,
-      "submissionDate": specialIssueSubmissionDateController.value.text,
+      "webpage": specialIssueWebPageController.value.text,
+      "submission_deadline": specialIssueSubmissionDateController.value.text,
       "description": specialIssueDescriptionController.value.text,
-      "tags": specialIssueTagsController.value.text,
+      "tags": specialIssueTagsController.value.text == "" ? [] : specialIssueTagsController.value.text.split(",")
     };
     var response = await specialIssueProvider.insertSpecialIssue(specialIssue, token.value);
-    if (!response.status.hasError) {
+    if (!response.statusCode.isEven) {
       Get.offAll(() => HomePage(
             showSearchBar: false,
           ));
