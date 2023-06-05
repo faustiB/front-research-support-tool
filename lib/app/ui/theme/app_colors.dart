@@ -1,8 +1,14 @@
+/// @package research-support-tool
+/// @copyright 2023 Daniel Amo * daniel.amo@salle.url.edu
+/// @copyright 2023 La Salle Campus Barcelona, Universitat Ramon Llull https://www.salleurl.edu
+/// @author Daniel Amo
+/// @author Guillem Miró Sierra
+/// @author Faozi Bouybaouene Gadrouz
+/// @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 import 'dart:ui';
 
 class AppColors {
-  //TODO: Define our own colors
   static const Color primaryColor = Color(0xFF7aa9dd);
   static const Color secondaryColor = Color(0xFFd6e4f5);
   static const Color accentColor = Color(0xFFE65100);
